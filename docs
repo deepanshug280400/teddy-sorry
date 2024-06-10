@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teddy Bear Apology</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="teddyCanvas" width="400" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('teddyCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function drawCircle(color, radius, x, y) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawTeddy() {
+            // Head
+            drawCircle('brown', 50, 200, 100);
+
+            // Eyes
+            drawCircle('white', 10, 180, 80);
+            drawCircle('black', 5, 180, 80);
+            drawCircle('white', 10, 220, 80);
+            drawCircle('black', 5, 220, 80);
+
+            // Nose
+            drawCircle('black', 8, 200, 100);
+
+            // Body
+            drawCircle('gold', 70, 200, 200);
+
+            // Ears
+            drawCircle('saddlebrown', 25, 150, 50);
+            drawCircle('saddlebrown', 25, 250, 50);
+
+            // Legs
+            drawCircle('chocolate', 30, 165, 260);
+            drawCircle('chocolate', 30, 235, 260);
+
+            // Arms
+            drawCircle('peru', 25, 125, 175);
+            drawCircle('peru', 25, 275, 175);
+
+            // Hover play card
+            ctx.beginPath();
+            ctx.rect(140, 120, 120, 60);
+            ctx.fillStyle = 'lightgrey';
+            ctx.fill();
+            ctx.closePath();
+
+            // Text on the card
+            ctx.font = '24px Arial';
+            ctx.fillStyle = 'black';
+            ctx.fillText('Sorry!', 160, 155);
+        }
+
+        drawTeddy();
+    </script>
+</body>
+</html>
