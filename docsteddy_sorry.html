@@ -84,7 +84,7 @@
             if (step >= 17) {
                 ctx.font = '24px Arial';
                 ctx.fillStyle = 'black';
-                ctx.fillText('Sorry!', 160, 155);
+                ctx.fillText('Sorry Bubu!', 140, 155);
             }
         }
 
@@ -98,7 +98,7 @@
         function animateTeddy() {
             if (currentStep <= totalSteps) {
                 drawTeddyStep(currentStep);
-                gif.addFrame(canvas, {copy: true, delay: 500});
+                gif.addFrame(canvas, {copy: true, delay: 10000}); // Increased delay to 10000 ms (1 second)
                 currentStep++;
                 requestAnimationFrame(animateTeddy);
             } else {
