@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teddy Bear Apology</title>
+    <title>Teddy Bear Apology GIF</title>
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -16,12 +17,17 @@
             border: 1px solid black;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.js"></script>
 </head>
 <body>
     <canvas id="teddyCanvas" width="400" height="400"></canvas>
+    <button id="generateGif">Generate GIF</button>
+    <img id="resultGif" alt="Teddy Bear Apology GIF" />
     <script>
         const canvas = document.getElementById('teddyCanvas');
         const ctx = canvas.getContext('2d');
+        const generateGifButton = document.getElementById('generateGif');
+        const resultGif = document.getElementById('resultGif');
 
         function drawCircle(color, radius, x, y) {
             ctx.beginPath();
@@ -31,48 +37,82 @@
             ctx.closePath();
         }
 
-        function drawTeddy() {
+        function drawTeddyStep(step) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
             // Head
-            drawCircle('brown', 50, 200, 100);
+            if (step >= 1) drawCircle('brown', 50, 200, 100);
 
             // Eyes
-            drawCircle('white', 10, 180, 80);
-            drawCircle('black', 5, 180, 80);
-            drawCircle('white', 10, 220, 80);
-            drawCircle('black', 5, 220, 80);
+            if (step >= 2) drawCircle('white', 10, 180, 80);
+            if (step >= 3) drawCircle('black', 5, 180, 80);
+            if (step >= 4) drawCircle('white', 10, 220, 80);
+            if (step >= 5) drawCircle('black', 5, 220, 80);
+
+            // Tears
+            if (step >= 6) drawCircle('lightblue', 4, 180, 90);
+            if (step >= 7) drawCircle('lightblue', 4, 220, 90);
 
             // Nose
-            drawCircle('black', 8, 200, 100);
+            if (step >= 8) drawCircle('black', 8, 200, 100);
 
             // Body
-            drawCircle('gold', 70, 200, 200);
+            if (step >= 9) drawCircle('gold', 70, 200, 200);
 
             // Ears
-            drawCircle('saddlebrown', 25, 150, 50);
-            drawCircle('saddlebrown', 25, 250, 50);
+            if (step >= 10) drawCircle('saddlebrown', 25, 150, 50);
+            if (step >= 11) drawCircle('saddlebrown', 25, 250, 50);
 
             // Legs
-            drawCircle('chocolate', 30, 165, 260);
-            drawCircle('chocolate', 30, 235, 260);
+            if (step >= 12) drawCircle('chocolate', 30, 165, 260);
+            if (step >= 13) drawCircle('chocolate', 30, 235, 260);
 
             // Arms
-            drawCircle('peru', 25, 125, 175);
-            drawCircle('peru', 25, 275, 175);
+            if (step >= 14) drawCircle('peru', 25, 125, 175);
+            if (step >= 15) drawCircle('peru', 25, 275, 175);
 
             // Hover play card
-            ctx.beginPath();
-            ctx.rect(140, 120, 120, 60);
-            ctx.fillStyle = 'lightgrey';
-            ctx.fill();
-            ctx.closePath();
+            if (step >= 16) {
+                ctx.beginPath();
+                ctx.rect(140, 120, 120, 60);
+                ctx.fillStyle = 'lightgrey';
+                ctx.fill();
+                ctx.closePath();
+            }
 
             // Text on the card
-            ctx.font = '24px Arial';
-            ctx.fillStyle = 'black';
-            ctx.fillText('Sorry!', 160, 155);
+            if (step >= 17) {
+                ctx.font = '24px Arial';
+                ctx.fillStyle = 'black';
+                ctx.fillText('Sorry!', 160, 155);
+            }
         }
 
-        drawTeddy();
+        let currentStep = 0;
+        const totalSteps = 17;
+        const gif = new GIF({
+            workers: 2,
+            quality: 10
+        });
+
+        function animateTeddy() {
+            if (currentStep <= totalSteps) {
+                drawTeddyStep(currentStep);
+                gif.addFrame(canvas, {copy: true, delay: 500});
+                currentStep++;
+                requestAnimationFrame(animateTeddy);
+            } else {
+                gif.on('finished', function(blob) {
+                    resultGif.src = URL.createObjectURL(blob);
+                });
+                gif.render();
+            }
+        }
+
+        generateGifButton.addEventListener('click', () => {
+            currentStep = 0;
+            animateTeddy();
+        });
     </script>
 </body>
 </html>
